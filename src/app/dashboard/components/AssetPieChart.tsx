@@ -23,15 +23,24 @@ export default function AssetPieChart({ data }: AssetPieChartProps) {
         <ResponsiveContainer width="100%" height={300}>
         <PieChart>
           <Pie
-            data={data}
+            data={data as any}
             cx="50%"
             cy="50%"
             labelLine={false}
-            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-            labelStyle={{ 
-              fill: '#FFFFFF', 
-              fontWeight: 600, 
-              fontSize: 12
+            label={(props: any) => {
+              const { name, percent } = props;
+              return (
+                <text
+                  x={props.x}
+                  y={props.y}
+                  fill="#FFFFFF"
+                  textAnchor={props.x > props.cx ? 'start' : 'end'}
+                  dominantBaseline="central"
+                  style={{ fontSize: 12, fontWeight: 600 }}
+                >
+                  {`${name} ${((percent || 0) * 100).toFixed(0)}%`}
+                </text>
+              );
             }}
             outerRadius={90}
             innerRadius={60}
