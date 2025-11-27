@@ -1,6 +1,6 @@
 # 📊 Portfolio Balance Dashboard
 
-Dashboard moderno e elegante para gerenciamento de portfólio de investimentos com rebalanceamento automático.
+Dashboard moderno e simples de utilizar para gerenciamento de portfólio de investimentos com rebalanceamento automático.
 
 ## ✨ Features
 
