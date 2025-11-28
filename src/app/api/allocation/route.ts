@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 
 let allocation = {
-  'FII': 40,
-  'Ação': 30,
-  'Renda Fixa': 20,
-  'Cripto': 10,
+  'FII': 0,
+  'Ação': 0,
+  'Renda Fixa': 0,
+  'Cripto': 0,
 };
 
 export async function GET() {

@@ -28,38 +28,51 @@ export default function IdealVsCurrentBar({ data }: IdealVsCurrentBarProps) {
             />
             <XAxis 
               dataKey="class" 
-              stroke="#94a3b8" 
-              style={{ fontSize: 12 }}
+              stroke="#a5b4fc" 
+              style={{ fontSize: 12, fontWeight: 600 }}
             />
             <YAxis 
-              stroke="#94a3b8" 
-              style={{ fontSize: 12 }}
+              stroke="#a5b4fc" 
+              style={{ fontSize: 12, fontWeight: 600 }}
             />
             <Tooltip 
               contentStyle={{
-                background: 'rgba(30, 41, 59, 0.95)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '0.5rem',
-                color: '#FFFFFF'
+                background: 'rgba(15, 23, 42, 0.98)',
+                border: '1px solid rgba(99, 102, 241, 0.3)',
+                borderRadius: '0.75rem',
+                color: '#FFFFFF',
+                fontWeight: 600,
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.5)'
               }}
             />
             <Legend 
               wrapperStyle={{
-                fontSize: '12px'
+                fontSize: '12px',
+                fontWeight: 600
               }}
             />
             <Bar 
               dataKey="current" 
-              fill="#818cf8" 
+              fill="url(#colorCurrent)" 
               name="Atual" 
-              radius={[4, 4, 0, 0]}
+              radius={[8, 8, 0, 0]}
             />
             <Bar 
               dataKey="ideal" 
-              fill="#34d399" 
+              fill="url(#colorIdeal)" 
               name="Ideal" 
-              radius={[4, 4, 0, 0]}
+              radius={[8, 8, 0, 0]}
             />
+            <defs>
+              <linearGradient id="colorCurrent" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#818cf8" stopOpacity={1} />
+                <stop offset="100%" stopColor="#6366f1" stopOpacity={0.8} />
+              </linearGradient>
+              <linearGradient id="colorIdeal" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#34d399" stopOpacity={1} />
+                <stop offset="100%" stopColor="#10b981" stopOpacity={0.8} />
+              </linearGradient>
+            </defs>
           </BarChart>
         </ResponsiveContainer>
       </div>

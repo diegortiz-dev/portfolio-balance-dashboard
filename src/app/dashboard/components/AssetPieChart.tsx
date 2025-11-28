@@ -58,16 +58,18 @@ export default function AssetPieChart({ data }: AssetPieChartProps) {
           </Pie>
           <Tooltip 
             contentStyle={{
-              background: 'rgba(30, 41, 59, 0.95)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '0.5rem',
-              color: '#FFFFFF'
+              background: 'rgba(15, 23, 42, 0.98)',
+              border: '1px solid rgba(99, 102, 241, 0.3)',
+              borderRadius: '0.75rem',
+              color: '#FFFFFF',
+              fontWeight: 600,
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.5)'
             }}
           />
           <Legend 
             wrapperStyle={{
               fontSize: '12px',
-              fontWeight: 500
+              fontWeight: 600
             }}
           />
         </PieChart>
