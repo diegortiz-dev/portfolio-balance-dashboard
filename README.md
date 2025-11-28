@@ -110,17 +110,3 @@ npm run lint     # Linting
   "zustand": "^5.0.8"
 }
 ```
-
-## 🚀 Deploy
-
-Deploy facilmente na [Vercel](https://vercel.com):
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
-
-## 📝 License
-
-MIT License - sinta-se livre para usar em seus projetos!
-
----
-
-Feito com ❤️ usando Next.js
