@@ -24,7 +24,10 @@ export default function ParticleBackground() {
       opacity: number;
     }> = [];
 
-    for (let i = 0; i < 50; i++) {
+    const isMobile = window.innerWidth < 768;
+    const particleCount = isMobile ? 20 : 50;
+
+    for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,

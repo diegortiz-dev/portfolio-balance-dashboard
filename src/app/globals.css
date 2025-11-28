@@ -143,10 +143,23 @@ body::after {
   opacity: 0.3;
 }
 
+/* Responsividade Global */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+}
+
 /* Scrollbar personalizada */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
+}
+
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
 }
 
 ::-webkit-scrollbar-track {

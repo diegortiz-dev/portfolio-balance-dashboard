@@ -128,3 +128,72 @@
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+@media (max-width: 1024px) {
+  .tableContainer {
+    padding: 1.75rem;
+  }
+
+  .tableTitle {
+    font-size: 1.125rem;
+  }
+
+  .th, .td {
+    padding: 0.75rem 0.875rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .tableContainer {
+    padding: 1.25rem;
+    overflow-x: auto;
+  }
+
+  .tableTitle {
+    font-size: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .table {
+    min-width: 600px;
+  }
+
+  .th {
+    padding: 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .td {
+    padding: 0.75rem;
+    font-size: 0.8125rem;
+  }
+
+  .editButton, .deleteButton {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tableContainer {
+    padding: 1rem;
+  }
+
+  .tableTitle {
+    font-size: 0.9375rem;
+  }
+
+  .table {
+    min-width: 550px;
+  }
+
+  .th, .td {
+    padding: 0.625rem 0.5rem;
+  }
+
+  .editButton, .deleteButton {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+}

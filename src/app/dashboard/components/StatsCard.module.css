@@ -86,3 +86,55 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0.8; }
 }
+
+@media (max-width: 1024px) {
+  .card {
+    padding: 1.5rem;
+  }
+
+  .value {
+    font-size: 2rem;
+  }
+
+  .icon {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 1.25rem;
+  }
+
+  .title {
+    font-size: 0.8125rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .value {
+    font-size: 1.75rem;
+  }
+
+  .icon {
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1rem;
+  }
+
+  .value {
+    font-size: 1.5rem;
+  }
+
+  .icon {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}

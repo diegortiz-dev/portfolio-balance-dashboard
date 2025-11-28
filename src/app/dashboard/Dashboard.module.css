@@ -64,12 +64,60 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+@media (max-width: 1280px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 1024px) {
+  .title {
+    font-size: 1.75rem;
+  }
+
   .statsGrid {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
   
   .chartsGrid {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    margin-bottom: 1.5rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.875rem;
+  }
+
+  .statsGrid {
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .subtitle {
+    font-size: 0.8125rem;
+  }
+
+  .statsGrid, .chartsGrid {
+    gap: 0.75rem;
   }
 }
