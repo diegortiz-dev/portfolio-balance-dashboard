@@ -40,6 +40,22 @@
   transform: scaleY(1);
 }
 
+.navLinkActive {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.15));
+  color: #FFFFFF;
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.25);
+}
+
+.navLinkActive::before {
+  transform: scaleY(1);
+}
+
+.navLinkActive svg {
+  color: #a5b4fc;
+  filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.6));
+}
+
 .navLink svg {
   transition: all 0.3s ease;
   filter: drop-shadow(0 0 0 transparent);
@@ -91,6 +107,8 @@
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 10;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebarHeader {
@@ -142,6 +160,19 @@
 
 .nav {
   padding: 1.5rem 1rem;
+  flex: 1;
+}
+
+.sidebarFooter {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid rgba(99, 102, 241, 0.15);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.03) 0%, transparent 100%);
+}
+
+.footerText {
+  font-size: 0.75rem;
+  color: #64748b;
+  text-align: center;
 }
 
 .mainContent {

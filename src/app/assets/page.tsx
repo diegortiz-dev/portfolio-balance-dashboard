@@ -1,85 +1,112 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Asset } from '@/types';
-import { API_ROUTES } from '@/constants';
+import { usePortfolioStore } from '@/store/usePortfolioStore';
+import { useToast } from '@/components/Toast/ToastProvider';
+import { useConfirmDialog } from '@/components/ConfirmDialog/ConfirmDialog';
 import AssetForm from './components/AssetForm';
 import AssetTable from './components/AssetTable';
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 import styles from './Assets.module.css';
 
 export default function AssetsPage() {
-  const [assets, setAssets] = useState<Asset[]>([]);
+  const [isHydrated, setIsHydrated] = useState(false);
   const [editingAsset, setEditingAsset] = useState<Asset | null>(null);
+  
+  const assets = usePortfolioStore((state) => state.assets);
+  const addAsset = usePortfolioStore((state) => state.addAsset);
+  const updateAsset = usePortfolioStore((state) => state.updateAsset);
+  const deleteAsset = usePortfolioStore((state) => state.deleteAsset);
+  
+  const { showToast } = useToast();
+  const { confirm, DialogComponent } = useConfirmDialog();
 
   useEffect(() => {
-    loadAssets();
+    setIsHydrated(true);
   }, []);
 
-  const loadAssets = async () => {
-    const response = await fetch(API_ROUTES.ASSETS);
-    const data = await response.json();
-    setAssets(data);
-  };
-
-  const handleSubmit = async (asset: Omit<Asset, 'id'>) => {
+  const handleSubmit = (asset: Omit<Asset, 'id'>) => {
     if (editingAsset) {
-      await fetch(API_ROUTES.ASSETS, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...asset, id: editingAsset.id }),
-      });
+      updateAsset(editingAsset.id, asset);
+      showToast(`Ativo "${asset.name}" atualizado com sucesso!`, 'success');
       setEditingAsset(null);
     } else {
-      await fetch(API_ROUTES.ASSETS, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(asset),
-      });
+      addAsset(asset);
+      showToast(`Ativo "${asset.name}" adicionado com sucesso!`, 'success');
     }
-    loadAssets();
   };
 
   const handleDelete = async (id: string) => {
-    await fetch(`${API_ROUTES.ASSETS}?id=${id}`, { method: 'DELETE' });
-    loadAssets();
+    const asset = assets.find(a => a.id === id);
+    if (!asset) return;
+
+    const confirmed = await confirm(
+      'Excluir Ativo',
+      `Tem certeza que deseja excluir "${asset.name}"? Esta ação não pode ser desfeita.`,
+      'danger'
+    );
+
+    if (confirmed) {
+      deleteAsset(id);
+      showToast(`Ativo "${asset.name}" excluído com sucesso!`, 'success');
+    }
   };
 
   const handleEdit = (asset: Asset) => {
     setEditingAsset(asset);
+    showToast(`Editando "${asset.name}"`, 'info');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const handleCancelEdit = () => {
+    setEditingAsset(null);
+    showToast('Edição cancelada', 'info');
+  };
+
+  if (!isHydrated) {
+    return (
+      <div className={styles.loadingContainer}>
+        <LoadingSpinner size="large" text="Carregando ativos..." />
+      </div>
+    );
+  }
+
+  const totalValue = assets.reduce((acc, asset) => acc + asset.value, 0);
 
   return (
     <div className={styles.container}>
+      <DialogComponent />
+      
       <div className={styles.header}>
-        <h1 className={styles.title}>Ativos</h1>
-        <p className={styles.subtitle}>Gerencie seus ativos e investimentos</p>
+        <div>
+          <h1 className={styles.title}>Ativos</h1>
+          <p className={styles.subtitle}>Gerencie seus ativos e investimentos</p>
+        </div>
+        {assets.length > 0 && (
+          <div className={styles.headerStats}>
+            <span className={styles.statItem}>
+              <strong>{assets.length}</strong> ativos
+            </span>
+            <span className={styles.statDivider}>•</span>
+            <span className={styles.statItem}>
+              <strong>R$ {totalValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</strong> total
+            </span>
+          </div>
+        )}
       </div>
 
       <div className={styles.grid}>
-        <div>
+        <div className={styles.formSection}>
           <AssetForm onSubmit={handleSubmit} initialData={editingAsset} />
           {editingAsset && (
-            <button
-              onClick={() => setEditingAsset(null)}
-              style={{
-                marginTop: '0.75rem',
-                width: '100%',
-                padding: '0.75rem',
-                background: 'rgba(248, 113, 113, 0.15)',
-                color: '#f87171',
-                border: '1px solid rgba(248, 113, 113, 0.3)',
-                borderRadius: '0.5rem',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
-              }}
-            >
+            <button onClick={handleCancelEdit} className={styles.cancelButton}>
               ✕ Cancelar Edição
             </button>
           )}
         </div>
 
-        <div style={{gridColumn: 'span 2 / span 2'}}>
+        <div className={styles.tableSection}>
           <AssetTable assets={assets} onDelete={handleDelete} onEdit={handleEdit} />
         </div>
       </div>

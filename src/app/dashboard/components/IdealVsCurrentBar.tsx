@@ -2,14 +2,46 @@
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { motion } from 'framer-motion';
-import { RebalanceData } from '@/types';
 import styles from './Chart.module.css';
 
-interface IdealVsCurrentBarProps {
-  data: RebalanceData[];
+interface RebalanceItem {
+  class: string;
+  current: number;
+  currentPercent: number;
+  ideal: number;
+  idealPercent: number;
+  difference: number;
+  action: 'buy' | 'sell' | 'hold';
 }
 
+interface IdealVsCurrentBarProps {
+  data: RebalanceItem[];
+}
+
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className={styles.customTooltip}>
+        <p className={styles.tooltipLabel}>{label}</p>
+        {payload.map((entry: any, index: number) => (
+          <p key={index} style={{ color: entry.color, marginBottom: '0.25rem' }}>
+            {entry.name}: R$ {entry.value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+          </p>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
+
 export default function IdealVsCurrentBar({ data }: IdealVsCurrentBarProps) {
+  // Transform data for the chart
+  const chartData = data.map(item => ({
+    class: item.class,
+    current: item.current,
+    ideal: item.ideal,
+  }));
+
   return (
     <motion.div 
       className={styles.chartContainer}
@@ -17,10 +49,12 @@ export default function IdealVsCurrentBar({ data }: IdealVsCurrentBarProps) {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay: 0.3 }}
     >
-      <h3 className={styles.chartTitle}>Atual vs Ideal</h3>
+      <div className={styles.chartHeader}>
+        <h3 className={styles.chartTitle}>Atual vs Ideal</h3>
+      </div>
       <div className={styles.chartWrapper}>
         <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={data}>
+          <BarChart data={chartData}>
             <CartesianGrid 
               strokeDasharray="3 3" 
               stroke="rgba(255, 255, 255, 0.1)" 
@@ -30,38 +64,37 @@ export default function IdealVsCurrentBar({ data }: IdealVsCurrentBarProps) {
               dataKey="class" 
               stroke="#a5b4fc" 
               style={{ fontSize: 12, fontWeight: 600 }}
+              tickLine={false}
+              axisLine={{ stroke: 'rgba(255, 255, 255, 0.1)' }}
             />
             <YAxis 
               stroke="#a5b4fc" 
               style={{ fontSize: 12, fontWeight: 600 }}
+              tickFormatter={(value) => `R$ ${(value / 1000).toFixed(0)}k`}
+              tickLine={false}
+              axisLine={{ stroke: 'rgba(255, 255, 255, 0.1)' }}
             />
-            <Tooltip 
-              contentStyle={{
-                background: 'rgba(15, 23, 42, 0.98)',
-                border: '1px solid rgba(99, 102, 241, 0.3)',
-                borderRadius: '0.75rem',
-                color: '#FFFFFF',
-                fontWeight: 600,
-                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.5)'
-              }}
-            />
+            <Tooltip content={<CustomTooltip />} />
             <Legend 
               wrapperStyle={{
                 fontSize: '12px',
                 fontWeight: 600
               }}
+              formatter={(value) => <span style={{ color: '#e2e8f0' }}>{value}</span>}
             />
             <Bar 
               dataKey="current" 
               fill="url(#colorCurrent)" 
               name="Atual" 
               radius={[8, 8, 0, 0]}
+              maxBarSize={50}
             />
             <Bar 
               dataKey="ideal" 
               fill="url(#colorIdeal)" 
               name="Ideal" 
               radius={[8, 8, 0, 0]}
+              maxBarSize={50}
             />
             <defs>
               <linearGradient id="colorCurrent" x1="0" y1="0" x2="0" y2="1">

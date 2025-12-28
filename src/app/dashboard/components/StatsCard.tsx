@@ -1,22 +1,26 @@
 'use client';
 
 import styles from './StatsCard.module.css';
-import { TrendingUp, Wallet, Layers } from 'lucide-react';
+import { TrendingUp, TrendingDown, Wallet, Layers, BarChart, DollarSign } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface StatsCardProps {
   title: string;
   value: string;
+  subtitle?: string;
+  trend?: 'up' | 'down';
+  trendValue?: string;
 }
 
 const icons: Record<string, any> = {
   'Total Investido': Wallet,
   'Ativos': Layers,
   'Classes': TrendingUp,
+  'Média por Ativo': DollarSign,
 };
 
-export default function StatsCard({ title, value }: StatsCardProps) {
-  const Icon = icons[title] || TrendingUp;
+export default function StatsCard({ title, value, subtitle, trend, trendValue }: StatsCardProps) {
+  const Icon = icons[title] || BarChart;
   
   return (
     <motion.div 
@@ -36,6 +40,18 @@ export default function StatsCard({ title, value }: StatsCardProps) {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, delay: 0.2 }}
       >{value}</motion.p>
+      
+      {(trend || subtitle) && (
+        <div className={styles.footer}>
+          {trend && trendValue && (
+            <span className={`${styles.trend} ${styles[trend]}`}>
+              {trend === 'up' ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+              {trendValue}
+            </span>
+          )}
+          {subtitle && <span className={styles.subtitle}>{subtitle}</span>}
+        </div>
+      )}
     </motion.div>
   );
 }
